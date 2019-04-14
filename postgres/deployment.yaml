@@ -18,36 +18,37 @@ spec:
     spec:
       containers:
         - name: db
-          image: mariadb:latest
+          image: postgres:11.2
           ports:
-            - containerPort: 3306
+            - containerPort: 5432
           args:
-            - --transaction-isolation=READ-COMMITTED
-            - --binlog-format=ROW
+            # - --transaction-isolation=READ-COMMITTED
+            # @TODO: nikola - SETUP REPLICATION
+            # - --binlog-format=ROW
             - --max-connections=1000
           env:
-            - name: MYSQL_DATABASE
+            - name: POSTGRES_DATABASE
               valueFrom:
                 secretKeyRef:
-                  key: MYSQL_DATABASE
+                  key: POSTGRES_DATABASE
                   name: db-secrets
-            - name: MYSQL_PASSWORD
+            - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  key: MYSQL_PASSWORD
+                  key: POSTGRES_PASSWORD
                   name: db-secrets
-            - name: MYSQL_ROOT_PASSWORD
+            - name: POSTGRES_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  key: MYSQL_ROOT_PASSWORD
+                  key: POSTGRES_ROOT_PASSWORD
                   name: db-secrets
-            - name: MYSQL_USER
+            - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  key: MYSQL_USER
+                  key: POSTGRES_USER
                   name: db-secrets
           volumeMounts:
-            - mountPath: /var/lib/mysql
+            - mountPath: /var/lib/postgres
               name: db-persistent-storage
       restartPolicy: Always
       volumes:

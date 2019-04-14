@@ -8,7 +8,7 @@ spec:
       containers:
         - name: app
           env:
-            - name: MYSQL_HOST
+            - name: POSTGRES_HOST
               value: $(DB_SERVICE)
             - name: REDIS_HOST
               value: $(REDIS_SERVICE)
